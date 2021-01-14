@@ -1,20 +1,36 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+
+import { addNote, fetchNotes, delNote } from '../service/api';
 
 const Notes = (props) => {
     const input = useRef();
-    const [notes, setNotes] = useState([
-        {id: 1, note: 'note1'}, 
-        {id: 2, note: 'note2'},
-    ]);
-    const removeNote = (note) => {
-        let newNotes = notes.filter((item) => !(note.id===item.id))
-        setNotes(newNotes);
+    const [notes, setNotes] = useState([]);
+    useEffect(()=>{
+        fetchNotes()
+        .then((notes)=>{
+            setNotes([...notes]);
+        });
+    }, [])
+    const removeNote = async (note) => {
+        let isDeleted = await delNote(note._id)
+        if(isDeleted){
+            let newNotes = notes.filter((item) => !(note._id===item._id))
+            setNotes(newNotes);
+        } else {
+            console.log("error");
+        }
     };
-    const addNote = () => {
+    const addNewNote = () => {
         let newNote = input.current.value;
         if(newNote){
-            setNotes([...notes, {id: notes.length, note: newNote}]);
-            input.current.value = "";
+            addNote(newNote)
+            .then((addedNote) => {
+                setNotes([...notes, addedNote]);
+                   input.current.value = "";
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
         }
     };
 
@@ -29,7 +45,7 @@ const Notes = (props) => {
             ))}
             <div className="notes-list-item at-bottom">
                 <input type="text" ref={input} />
-                <i className="fa fa-check" onClick={addNote}/>
+                <i className="fa fa-check" onClick={addNewNote}/>
             </div>
         </div>
     )
