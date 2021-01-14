@@ -71,3 +71,12 @@ input {
 .graph-text {
     margin-left: 40px;
 }
+
+.google {
+    position: absolute;
+    top: 40vh;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    left: 40vw;
+}
