@@ -1,11 +1,9 @@
-from re import error
 from flask import Flask, json, request, jsonify, render_template
 from flask_pymongo import PyMongo
 from datetime import datetime as dt
 import requests
 
 from bson.objectid import ObjectId
-from pymongo.collation import CollationStrength
 
 from util import *
 
