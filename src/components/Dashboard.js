@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
     }
     loggedin(response){
         console.log(response);
-        verifyLogin(response.tokenId)false
+        verifyLogin(response.tokenId)
         .then(()=>{this.setState({...this.state, isLoggedIn: true});})
         .catch(()=>{this.setState({...this.state, isLoggedIn: false})})
     }
@@ -58,19 +58,13 @@ export default class Dashboard extends Component {
         const temperature = (this.state.temperature.reduce((acc, cur)=>acc+cur, 0)/this.state.temperature.length).toFixed(2);
         return (
             <>
-                {!(this.state.isLoggedIn && this.state.isCaptcha)? <div className="google">
-//                         <GoogleLogin
-//                             clientId="11561370885-11a2tmqpupr6hc1lvrqnvfrp9mpkpdoh.apps.googleusercontent.com"
-//                             buttonText="Login"
-//                             onSuccess={this.loggedin.bind(this)}
-//                             onFailure={this.loginFail.bind(this)}
-//                             cookiePolicy={'single_host_origin'}
-//                         />
-                        <ReCAPTCHA
-                            sitekey="6Le9kywaAAAAAP0o4UAChlioECJeN50LN1YBE3S_"
-                            onChange={this.captchaChange.bind(this)}
-                        />
-                    </div>
+                {!(this.state.isLoggedIn && this.state.isCaptcha)? 
+                 <div className="google">
+                    <ReCAPTCHA
+                        sitekey="6Le9kywaAAAAAP0o4UAChlioECJeN50LN1YBE3S_"
+                        onChange={this.captchaChange.bind(this)}
+                    />
+                </div>
                 :
                 <div className="container">
                     <div className="information">
